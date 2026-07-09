@@ -1,4 +1,4 @@
-module discord-mute-tracker
+module discord-voice-tracker
 
 go 1.26.5
 

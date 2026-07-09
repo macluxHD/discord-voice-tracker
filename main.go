@@ -2,7 +2,7 @@ package main
 
 import (
 	"database/sql"
-	"discord-mute-tracker/internal/database"
+	"discord-voice-tracker/internal/database"
 	"fmt"
 	"log"
 	"os"
