@@ -76,7 +76,7 @@ func main() {
 }
 
 func (b *Bot) onVoiceStateUpdate(s *discordgo.Session, vs *discordgo.VoiceStateUpdate) {
-	if !trackedGuilds[vs.GuildID] {
+	if !trackedGuilds[vs.GuildID] && len(trackedGuilds) != 0 {
 		return
 	}
 
