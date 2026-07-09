@@ -14,7 +14,7 @@ INSERT INTO voice_events (
     event_type,
     timestamp
 )
-VALUES (?, ?, ?, ?, ?)
+VALUES (?, ?, ?, ?, ?, ?)
 `,
 		e.GuildID,
 		e.ChannelID,
