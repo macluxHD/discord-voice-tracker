@@ -137,6 +137,10 @@ func (b *Bot) onVoiceStateUpdate(s *discordgo.Session, vs *discordgo.VoiceStateU
 		fmt.Printf("%s was server undeafened\n", vs.Member.User.GlobalName)
 	}
 
+	if eventType == "" {
+		return
+	}
+
 	err := database.InsertVoiceEvent(b.DB, database.VoiceEvent{
 		GuildID:   vs.GuildID,
 		ChannelID: vs.ChannelID,
