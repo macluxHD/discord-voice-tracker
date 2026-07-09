@@ -65,6 +65,8 @@ func main() {
 		log.Fatalf("could not open session: %s", err)
 	}
 
+	registerCommands(bot, session)
+
 	sigch := make(chan os.Signal, 1)
 	signal.Notify(sigch, os.Interrupt)
 	<-sigch
@@ -80,7 +82,7 @@ func (b *Bot) onVoiceStateUpdate(s *discordgo.Session, vs *discordgo.VoiceStateU
 		return
 	}
 
-	var eventType string
+	var eventType database.EventType
 
 	// Voice channel changes
 	switch {
