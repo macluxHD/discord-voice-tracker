@@ -90,7 +90,7 @@ func (b *Bot) onVoiceStateUpdate(s *discordgo.Session, vs *discordgo.VoiceStateU
 
 	case vs.BeforeUpdate.ChannelID != "" && vs.ChannelID == "":
 		eventType = database.EventTypeLeave
-		fmt.Printf("%s left voice channel %s\n", vs.Member.User.Username, vs.BeforeUpdate.ChannelID)
+		fmt.Printf("%s left voice channel %s\n", vs.Member.User.Username, vs.ChannelID)
 
 	case vs.BeforeUpdate.ChannelID != vs.ChannelID:
 		eventType = database.EventTypeMove
