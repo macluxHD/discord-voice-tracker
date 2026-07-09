@@ -4,6 +4,7 @@ import (
 	"discord-voice-tracker/internal/database"
 	"fmt"
 	"log"
+	"sort"
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
@@ -45,6 +46,11 @@ var (
 	}
 )
 
+type UserCount struct {
+	Username string
+	Count    int
+}
+
 func (b *Bot) commandHandlers() map[string]func(*discordgo.Session, *discordgo.InteractionCreate) {
 	return map[string]func(*discordgo.Session, *discordgo.InteractionCreate){
 		"get-user-count": func(s *discordgo.Session, i *discordgo.InteractionCreate) {
@@ -76,15 +82,28 @@ func (b *Bot) commandHandlers() map[string]func(*discordgo.Session, *discordgo.I
 				return
 			}
 
-			var message strings.Builder
-			index := 0
+			var sorted []UserCount
 			for username, count := range counts {
-				index++
-				fmt.Fprintf(&message, "%d. %s: %d\n", index, username, count)
+				sorted = append(sorted, UserCount{
+					Username: username,
+					Count:    count,
+				})
+			}
+
+			// Sort by count descending
+			sort.Slice(sorted, func(i, j int) bool {
+				if sorted[i].Count == sorted[j].Count {
+					return sorted[i].Username < sorted[j].Username
+				}
+				return sorted[i].Count > sorted[j].Count
+			})
+
+			var message strings.Builder
+			for i, user := range sorted {
+				fmt.Fprintf(&message, "%d. %s: %d\n", i+1, user.Username, user.Count)
 			}
 
 			s.InteractionRespond(i.Interaction, &discordgo.InteractionResponse{
-				// Ignore type for now, they will be discussed in "responses"
 				Type: discordgo.InteractionResponseChannelMessageWithSource,
 				Data: &discordgo.InteractionResponseData{
 					Content: message.String(),

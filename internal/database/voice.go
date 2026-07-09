@@ -35,7 +35,6 @@ FROM voice_events
 WHERE guild_id = ?
 AND event_type IN (?` + strings.Repeat(`, ?`, len(events)-1) + `)
 GROUP BY username
-ORDER BY count DESC
 `
 
 	args := make([]interface{}, 0, len(events)+1)
